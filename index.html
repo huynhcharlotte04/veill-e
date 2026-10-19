@@ -80,23 +80,35 @@ h2 { margin: 0; font-family: var(--titre); font-weight: 600; font-size: 1.7rem; 
 .phrase { min-height: 3.2em; margin: 0; font-family: var(--titre); font-style: italic; font-size: 1.35rem; color: var(--texte); text-wrap: balance; }
 .meta { margin: 0; color: var(--texte-doux); font-size: 0.85rem; font-variant-numeric: tabular-nums; }
 
-/* Tirage */
-.card { width: min(100%, 20rem); perspective: 1100px; }
-.card-inner { display: grid; transform-style: preserve-3d; transition: transform 0.7s cubic-bezier(.3,.7,.2,1); }
-.card.revealed .card-inner { transform: rotateY(180deg); }
-.face { grid-area: 1 / 1; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 1.1rem; border: 1px solid var(--filet); padding: 1.4rem 1.2rem; display: flex; flex-direction: column; align-items: center; gap: 0.7rem; }
-.back { justify-content: center; min-height: 24rem; background: linear-gradient(160deg, var(--violet) 0%, var(--nuit-haute) 70%); cursor: pointer; width: 100%; font: inherit; color: var(--or); }
-.back .sigil { width: 8rem; }
-.back .label { color: var(--or-clair); }
-.front { transform: rotateY(180deg); background: linear-gradient(170deg, #1d1647 0%, var(--nuit-haute) 100%); color: var(--or); }
-.sigil { width: 5.5rem; height: auto; color: var(--or); }
-.deck { color: var(--brume); }
-.card h3 { margin: 0; font-family: var(--titre); font-weight: 600; font-size: 1.75rem; line-height: 1.1; color: var(--or-clair); text-wrap: balance; }
-.card .sub { margin: 0; color: var(--brume); font-size: 0.85rem; letter-spacing: 0.04em; }
-.card .intent { margin: 0.2rem 0 0; font-family: var(--titre); font-style: italic; font-size: 1.25rem; color: var(--texte); text-wrap: balance; }
+/* Tirage : trois cartes de tarot */
+.spread { width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6rem; }
+.slot { display: flex; flex-direction: column; align-items: center; gap: 0.45rem; min-width: 0; }
+.pos { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brume); min-height: 2.4em; display: flex; align-items: flex-end; text-align: center; line-height: 1.25; }
+.tcard { width: 100%; aspect-ratio: 2 / 3; padding: 0; border: 0; background: none; perspective: 900px; cursor: pointer; font: inherit; color: inherit; }
+.tinner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.7s cubic-bezier(.3,.7,.2,1); }
+.tcard.revealed .tinner { transform: rotateY(180deg); }
+.tface { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 0.6rem; border: 1px solid var(--or); overflow: hidden; }
+.tface::before { content: ""; position: absolute; inset: 4px; border: 1px solid rgba(230, 184, 92, 0.35); border-radius: 0.4rem; pointer-events: none; }
+.tback { display: grid; place-items: center; background: radial-gradient(circle at 50% 40%, #4a3a9c 0%, var(--violet) 40%, var(--nuit-haute) 100%); color: var(--or); }
+.tback .sigil { width: 70%; }
+.tfront { transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 0.55rem 0.4rem 0.5rem; background: linear-gradient(170deg, #1f1850 0%, #120d33 100%); color: var(--or); }
+.tcard.sel .tface { box-shadow: 0 0 0 2px var(--or), 0 0 26px rgba(230, 184, 92, 0.35); }
+.num { font-family: var(--titre); font-size: 0.95rem; font-weight: 600; letter-spacing: 0.15em; color: var(--or); line-height: 1; }
+.art { width: 100%; height: auto; aspect-ratio: 1; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.cname { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; color: var(--or-clair); text-align: center; line-height: 1.25; min-height: 2.5em; display: flex; align-items: center; justify-content: center; }
+.hint { margin: 0; color: var(--texte-doux); font-size: 0.85rem; }
+.detail { width: 100%; border: 1px solid var(--filet); border-radius: 1rem; padding: 1.2rem 1rem; background: linear-gradient(170deg, rgba(31, 24, 80, 0.85), rgba(18, 13, 51, 0.85)); display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
+.detail h3 { margin: 0; font-family: var(--titre); font-weight: 600; font-size: 1.7rem; line-height: 1.1; color: var(--or-clair); text-wrap: balance; }
+.detail .lead { color: var(--brume); }
+.detail .sub { margin: 0; color: var(--brume); font-size: 0.85rem; letter-spacing: 0.04em; }
+.detail .intent { margin: 0.1rem 0 0; font-family: var(--titre); font-style: italic; font-size: 1.25rem; color: var(--texte); text-wrap: balance; }
 .exo { width: 100%; margin-top: 0.4rem; padding-top: 0.9rem; border-top: 1px solid var(--filet); display: flex; flex-direction: column; align-items: center; gap: 0.7rem; }
 .exo p { margin: 0; font-size: 0.92rem; color: var(--texte); }
 .exo .btn { min-height: 44px; padding: 0 1.2rem; font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+
+/* Feu en vidéo (fire.mp4), le feu dessiné reste en secours */
+#firevid { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; mix-blend-mode: screen; opacity: 0; transition: opacity 1s; -webkit-mask-image: radial-gradient(closest-side, #000 62%, transparent 100%); mask-image: radial-gradient(closest-side, #000 62%, transparent 100%); pointer-events: none; }
+.hearth.video #fire { visibility: hidden; }
 
 /* Veillée */
 .hearth { position: relative; width: 100%; border-radius: 1.25rem; overflow: hidden; border: 1px solid var(--filet); background: radial-gradient(90% 80% at 50% 100%, rgba(224, 118, 58, 0.16) 0%, rgba(59, 44, 128, 0.25) 55%, rgba(13, 10, 34, 0.6) 100%); }
@@ -151,26 +163,19 @@ nav button[aria-current="page"] { color: var(--or); background: rgba(59, 44, 128
 
   <section class="panel" id="p-tirage" aria-labelledby="t-tirage" hidden>
     <h2 id="t-tirage">Le Tirage</h2>
-    <p class="lede">Une carte, une intention, un petit geste de trente secondes.</p>
+    <p class="lede">Trois cartes, trois regards sur ta journée. Touche chaque carte pour la retourner.</p>
     <div class="seg" id="decks" role="group" aria-label="Jeu de cartes">
       <button type="button" data-deck="cours" aria-pressed="true">Les Cours</button>
       <button type="button" data-deck="liens" aria-pressed="false">Liens d'écailles</button>
     </div>
-    <div class="card" id="card">
-      <div class="card-inner">
-        <button class="face back" id="cardback" type="button" aria-label="Tirer une carte">
-          <span id="backsigil"></span>
-          <span class="label">Touche pour tirer</span>
-        </button>
-        <div class="face front" id="cardfront" aria-live="polite"></div>
-      </div>
-    </div>
-    <button class="btn ghost" id="redraw" type="button" hidden>Tirer une autre carte</button>
+    <div class="spread" id="spread"></div>
+    <button class="btn ghost" id="tact" type="button">Retourner les trois cartes</button>
+    <div class="detail" id="detail" hidden aria-live="polite"></div>
   </section>
 
   <section class="panel" id="p-veillee" aria-labelledby="t-veillee" hidden>
     <h2 id="t-veillee">La Veillée</h2>
-    <div class="hearth"><canvas id="fire" aria-hidden="true"></canvas></div>
+    <div class="hearth" id="hearth"><video id="firevid" muted loop playsinline preload="auto" aria-hidden="true"><source src="fire.mp4" type="video/mp4"></video><canvas id="fire" aria-hidden="true"></canvas></div>
     <p class="clock" id="clock" role="timer">25:00</p>
     <p class="state" id="state" aria-live="polite">Prête à allumer.</p>
     <div class="seg" id="fdur" role="group" aria-label="Durée de concentration">
@@ -387,6 +392,7 @@ nav button[aria-current="page"] { color: var(--or); background: rgba(59, 44, 128
       if (b.dataset.tab === name) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
     });
     if (name === 'veillee') sizeFire();
+    vidState();
     store('veillee.tab', name);
     window.scrollTo(0, 0);
   }
@@ -436,28 +442,48 @@ nav button[aria-current="page"] { color: var(--or); background: rgba(59, 44, 128
     b.dur = Number(btn.dataset.min) * 60000;
   });
 
-  /* ---------- Tirage ---------- */
+  /* ---------- Tirage : trois cartes de tarot ---------- */
+  var ART = {
+    aube: '<path d="M28 70a22 22 0 0 1 44 0z" fill="currentColor" fill-opacity=".25"/><path d="M12 70h76M22 80h56M32 88h36" /><path d="M50 36V24M30 44l-7-7M70 44l7-7M20 58l-9-3M80 58l9-3"/>',
+    nuit: '<path d="M58 18A32 32 0 1 0 82 66A30 30 0 0 1 58 18Z" fill="currentColor" fill-opacity=".22"/><path d="M76 24l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="currentColor"/><circle cx="84" cy="48" r="1.6" fill="currentColor"/><circle cx="66" cy="14" r="1.4" fill="currentColor"/>',
+    braise: '<path d="M50 12c4 14 24 24 24 46a24 24 0 0 1-48 0c0-12 6-20 12-26 1 8 5 12 9 14-2-12-1-24 3-34z" fill="currentColor" fill-opacity=".22"/><path d="M50 54c3 7 10 11 10 20a10 10 0 0 1-20 0c0-6 4-9 6-13 1 3 2 5 4 6z"/><circle cx="24" cy="30" r="1.6" fill="currentColor"/><circle cx="78" cy="38" r="1.6" fill="currentColor"/><circle cx="70" cy="18" r="1.2" fill="currentColor"/>',
+    givre: '<path d="M50 14v72M19 32l62 36M81 32l-62 36"/><path d="M43 22l7 7 7-7M43 78l7-7 7 7"/><circle cx="50" cy="50" r="12" fill="currentColor" fill-opacity=".2"/>',
+    moisson: '<path d="M50 88V34M50 88c-6-12-18-18-28-20M50 88c6-12 18-18 28-20"/><path d="M50 44c-8-2-10-9-8-14 7 1 9 8 8 14zM50 44c8-2 10-9 8-14-7 1-9 8-8 14zM50 60c-8-2-10-9-8-14 7 1 9 8 8 14zM50 60c8-2 10-9 8-14-7 1-9 8-8 14zM50 34c-4-5-4-11 0-16 4 5 4 11 0 16z" fill="currentColor" fill-opacity=".25"/>',
+    maree: '<circle cx="50" cy="26" r="10" fill="currentColor" fill-opacity=".25"/><path d="M10 50q10-12 20 0t20 0 20 0 20 0M10 64q10-12 20 0t20 0 20 0 20 0M10 78q10-12 20 0t20 0 20 0 20 0"/>',
+    vent: '<path d="M14 38h44a10 10 0 1 0-10-10"/><path d="M14 54h58a11 11 0 1 1-11 11"/><path d="M14 70h28a8 8 0 1 1-8 8"/>',
+    racine: '<circle cx="50" cy="26" r="16" fill="currentColor" fill-opacity=".2"/><path d="M50 42v22M50 64c-4 8-12 12-26 14M50 64c0 10-2 18-6 24M50 64c4 8 12 12 26 14M50 64c0 10 2 18 6 24"/>',
+    sablier: '<path d="M30 14h40M30 86h40M32 14c0 24 18 26 18 36s-18 12-18 36M68 14c0 24-18 26-18 36s18 12 18 36"/><path d="M40 78c4-7 16-7 20 0v8H40z" fill="currentColor" fill-opacity=".3"/><path d="M50 52v16" stroke-dasharray="1 3"/>',
+    oeil: '<path d="M8 50c16-24 68-24 84 0-16 24-68 24-84 0z" fill="currentColor" fill-opacity=".15"/><circle cx="50" cy="50" r="17"/><ellipse cx="50" cy="50" rx="5" ry="15" fill="currentColor"/>',
+    anneaux: '<circle cx="38" cy="54" r="22"/><circle cx="62" cy="54" r="22"/><path d="M50 12l2.5 6 6.500.500-5 4 1.500 6.500L50 26l-5.500 3 1.500-6.500-5-4 6.500-.5z" fill="currentColor"/>',
+    plume: '<path d="M30 86C24 52 42 22 74 14c4 28-10 58-44 72z" fill="currentColor" fill-opacity=".2"/><path d="M30 86C40 62 54 42 72 20M44 64l13-2M50 52l13-3M40 74l11-1"/>',
+    cime: '<path d="M8 84l30-46 14 20 12-16 28 42z" fill="currentColor" fill-opacity=".2"/><path d="M28 52l10-14 8 12M60 42l12 12"/><path d="M50 10l2.500 6 6.500.5-5 4 1.500 6.500L50 24l-5.500 3 1.500-6.500-5-4 6.500-.5z" fill="currentColor"/>',
+    bougie: '<rect x="42" y="52" width="16" height="32" rx="2" fill="currentColor" fill-opacity=".2"/><path d="M34 84h32M50 52v-6"/><path d="M50 18c3 7 8 10 8 17a8 8 0 0 1-16 0c0-4 2-7 4-9 1 2 2 3 4 4-1-4-1-8 0-12z" fill="currentColor" fill-opacity=".3"/><circle cx="50" cy="36" r="24" stroke-dasharray="1 4"/>'
+  };
+  var ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'];
+  var POS = ['Ce qui pèse', 'Ce qui t\'aide', 'Ce qui vient'];
+  var LEAD = ['Ce qui pèse peut s\'alléger.', 'Ce qui t\'aide aujourd\'hui.', 'Ce qui vient, si tu l\'accueilles.'];
+  /* [nom sur la carte, titre complet, sous-titre, intention, geste, motif] */
   var decks = {
     cours: { nom: 'Les Cours', cartes: [
-      ['Cour de l\'Aube', 'Commencer doucement', 'Je n\'ai pas à tout lancer d\'un coup.', 'Pose les deux pieds au sol. Nomme trois sons autour de toi, sans les juger.'],
-      ['Cour de la Nuit Étoilée', 'Faire confiance au noir', 'Je n\'ai pas besoin de tout voir pour avancer.', 'Ferme les yeux pour trois respirations. Imagine une seule étoile qui s\'allume sur ta prochaine action.'],
-      ['Cour des Braises', 'Garder la chaleur', 'Ce que je fais compte, même quand c\'est discret.', 'Frotte tes paumes dix secondes, puis pose-les sur ta poitrine et sens la chaleur.'],
-      ['Cour du Givre', 'Prendre du recul', 'Je peux ralentir sans m\'excuser.', 'Relâche la mâchoire et les épaules. Expire longuement, comme sur une vitre froide.'],
-      ['Cour des Moissons', 'Récolter', 'J\'ai déjà fait plus que ce que je vois.', 'Nomme trois choses menées à bien cette semaine, même toutes petites.'],
-      ['Cour des Marées', 'Laisser passer', 'Ce qui monte finit par redescendre.', 'Imagine ta tension comme une vague. À chaque expiration, elle se retire un peu plus.'],
-      ['Cour du Vent', 'Alléger', 'Je peux déposer ce qui n\'est pas à moi.', 'Étire les bras vers le haut, puis laisse-les tomber avec une pensée qui ne t\'appartient pas.'],
-      ['Cour des Racines', 'S\'ancrer', 'Je suis à ma place.', 'Sens le poids de ton corps sur la chaise. Fais cinq respirations dans le bas du dos.']
+      ['L\'Aube', 'Cour de l\'Aube', 'Commencer doucement', 'Je n\'ai pas à tout lancer d\'un coup.', 'Pose les deux pieds au sol. Nomme trois sons autour de toi, sans les juger.', 'aube'],
+      ['La Nuit Étoilée', 'Cour de la Nuit Étoilée', 'Faire confiance au noir', 'Je n\'ai pas besoin de tout voir pour avancer.', 'Ferme les yeux pour trois respirations. Imagine une seule étoile qui s\'allume sur ta prochaine action.', 'nuit'],
+      ['Les Braises', 'Cour des Braises', 'Garder la chaleur', 'Ce que je fais compte, même quand c\'est discret.', 'Frotte tes paumes dix secondes, puis pose-les sur ta poitrine et sens la chaleur.', 'braise'],
+      ['Le Givre', 'Cour du Givre', 'Prendre du recul', 'Je peux ralentir sans m\'excuser.', 'Relâche la mâchoire et les épaules. Expire longuement, comme sur une vitre froide.', 'givre'],
+      ['Les Moissons', 'Cour des Moissons', 'Récolter', 'J\'ai déjà fait plus que ce que je vois.', 'Nomme trois choses menées à bien cette semaine, même toutes petites.', 'moisson'],
+      ['Les Marées', 'Cour des Marées', 'Laisser passer', 'Ce qui monte finit par redescendre.', 'Imagine ta tension comme une vague. À chaque expiration, elle se retire un peu plus.', 'maree'],
+      ['Le Vent', 'Cour du Vent', 'Alléger', 'Je peux déposer ce qui n\'est pas à moi.', 'Étire les bras vers le haut, puis laisse-les tomber avec une pensée qui ne t\'appartient pas.', 'vent'],
+      ['Les Racines', 'Cour des Racines', 'S\'ancrer', 'Je suis à ma place.', 'Sens le poids de ton corps sur la chaise. Fais cinq respirations dans le bas du dos.', 'racine']
     ] },
     liens: { nom: 'Liens d\'écailles', cartes: [
-      ['Lien de Patience', 'Laisser mûrir', 'Tout n\'a pas besoin d\'être résolu aujourd\'hui.', 'Choisis une chose à laisser reposer jusqu\'à demain et dis-toi : « pas maintenant ».'],
-      ['Lien de Courage', 'Un pas, pas dix', 'Je peux faire ce petit pas qui me fait peur.', 'Respire profondément, redresse-toi, puis décide du plus petit premier geste.'],
-      ['Lien de Loyauté', 'Rester fidèle à soi', 'Mes limites font partie de ma force.', 'Pense à une limite que tu veux tenir aujourd\'hui. Dis-la-toi à voix basse.'],
-      ['Lien de Souffle', 'Reprendre de l\'air', 'Il y a toujours de la place pour une respiration.', 'Inspire par le nez en quatre temps, expire par la bouche en six. Cinq fois.'],
-      ['Lien d\'Altitude', 'Voir plus large', 'D\'en haut, ce problème est plus petit.', 'Lève les yeux vers le point le plus lointain que tu vois. Laisse ton regard s\'élargir.'],
-      ['Lien de Veille', 'Garder la flamme', 'Je prends soin de ce qui compte.', 'Pose une main sur ton cœur et nomme une chose qui compte pour toi en ce moment.']
+      ['La Patience', 'Lien de Patience', 'Laisser mûrir', 'Tout n\'a pas besoin d\'être résolu aujourd\'hui.', 'Choisis une chose à laisser reposer jusqu\'à demain et dis-toi : « pas maintenant ».', 'sablier'],
+      ['Le Courage', 'Lien de Courage', 'Un pas, pas dix', 'Je peux faire ce petit pas qui me fait peur.', 'Respire profondément, redresse-toi, puis décide du plus petit premier geste.', 'oeil'],
+      ['La Loyauté', 'Lien de Loyauté', 'Rester fidèle à soi', 'Mes limites font partie de ma force.', 'Pense à une limite que tu veux tenir aujourd\'hui. Dis-la-toi à voix basse.', 'anneaux'],
+      ['Le Souffle', 'Lien de Souffle', 'Reprendre de l\'air', 'Il y a toujours de la place pour une respiration.', 'Inspire par le nez en quatre temps, expire par la bouche en six. Cinq fois.', 'plume'],
+      ['L\'Altitude', 'Lien d\'Altitude', 'Voir plus large', 'D\'en haut, ce problème est plus petit.', 'Lève les yeux vers le point le plus lointain que tu vois. Laisse ton regard s\'élargir.', 'cime'],
+      ['La Veille', 'Lien de Veille', 'Garder la flamme', 'Je prends soin de ce qui compte.', 'Pose une main sur ton cœur et nomme une chose qui compte pour toi en ce moment.', 'bougie']
     ] }
   };
-  var deck = 'cours', last = -1, exoTimer = null;
+  var deck = 'cours', sp = { idx: [], rev: [false, false, false], sel: -1 }, exoTimer = null, spreadTimers = [];
   function sigil(n) {
     var pts = [];
     for (var i = 0; i < n * 2; i++) {
@@ -466,19 +492,51 @@ nav button[aria-current="page"] { color: var(--or); background: rgba(59, 44, 128
     }
     return '<svg viewBox="0 0 100 100" class="sigil" aria-hidden="true"><circle cx="50" cy="50" r="47" fill="none" stroke="currentColor" stroke-width="1"/><circle cx="50" cy="50" r="43" fill="none" stroke="currentColor" stroke-width=".6" stroke-dasharray="1 3"/><polygon points="' + pts.join(' ') + '" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="50" cy="50" r="3" fill="currentColor"/></svg>';
   }
-  $('backsigil').innerHTML = sigil(9);
-  function fillCard(i) {
-    var c = decks[deck].cartes[i];
+  function newSpread() {
+    var all = decks[deck].cartes.map(function (_, i) { return i; });
+    for (var i = all.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = all[i]; all[i] = all[j]; all[j] = t; }
+    sp = { idx: all.slice(0, 3), rev: [false, false, false], sel: -1 };
     clearInterval(exoTimer);
-    $('cardfront').innerHTML = sigil(i + 4) +
-      '<span class="label deck"></span><h3></h3><p class="sub"></p><p class="intent"></p>' +
+    spreadTimers.forEach(clearTimeout); spreadTimers = [];
+    var h = '';
+    sp.idx.forEach(function (ci, k) {
+      var c = decks[deck].cartes[ci];
+      h += '<div class="slot"><span class="pos">' + POS[k] + '</span>' +
+        '<button class="tcard" type="button" data-k="' + k + '" aria-label="Carte ' + (k + 1) + ', face cachée"><div class="tinner">' +
+        '<div class="tface tback">' + sigil(9) + '</div>' +
+        '<div class="tface tfront"><span class="num">' + (ROMAN[ci] || '') + '</span><svg class="art" viewBox="0 0 100 100" aria-hidden="true">' + ART[c[5]] + '</svg><span class="cname"></span></div>' +
+        '</div></button></div>';
+    });
+    $('spread').innerHTML = h;
+    Array.prototype.forEach.call($('spread').querySelectorAll('.cname'), function (el, k) { el.textContent = decks[deck].cartes[sp.idx[k]][0]; });
+    $('detail').hidden = true;
+    updateAct();
+  }
+  function updateAct() {
+    var left = sp.rev.filter(function (r) { return !r; }).length;
+    $('tact').textContent = left ? 'Retourner les trois cartes' : 'Nouveau tirage';
+  }
+  function reveal(k) {
+    if (sp.rev[k]) return;
+    sp.rev[k] = true;
+    var el = $('spread').querySelector('[data-k="' + k + '"]');
+    el.classList.add('revealed');
+    el.setAttribute('aria-label', 'Carte ' + (k + 1) + ' : ' + decks[deck].cartes[sp.idx[k]][1]);
+    updateAct();
+  }
+  function select(k) {
+    sp.sel = k;
+    Array.prototype.forEach.call($('spread').querySelectorAll('.tcard'), function (el) { el.classList.toggle('sel', Number(el.dataset.k) === k); });
+    var c = decks[deck].cartes[sp.idx[k]], d = $('detail');
+    clearInterval(exoTimer);
+    d.innerHTML = '<span class="label lead"></span><h3></h3><p class="sub"></p><p class="intent"></p>' +
       '<div class="exo"><span class="label">Geste de 30 secondes</span><p></p><button class="btn ghost" type="button" id="exo">Commencer</button></div>';
-    var f = $('cardfront');
-    f.querySelector('.deck').textContent = decks[deck].nom;
-    f.querySelector('h3').textContent = c[0];
-    f.querySelector('.sub').textContent = c[1];
-    f.querySelector('.intent').textContent = '« ' + c[2] + ' »';
-    f.querySelector('.exo p').textContent = c[3];
+    d.querySelector('.lead').textContent = LEAD[k];
+    d.querySelector('h3').textContent = c[1];
+    d.querySelector('.sub').textContent = c[2];
+    d.querySelector('.intent').textContent = '« ' + c[3] + ' »';
+    d.querySelector('.exo p').textContent = c[4];
+    d.hidden = false;
     $('exo').addEventListener('click', function () {
       var btn = this, end = Date.now() + 30000;
       clearInterval(exoTimer);
@@ -489,28 +547,29 @@ nav button[aria-current="page"] { color: var(--or); background: rgba(59, 44, 128
       }, 250);
     });
   }
-  function draw() {
-    var card = $('card');
-    var go = function () {
-      last = pick(decks[deck].cartes, last);
-      fillCard(last);
-      card.classList.add('revealed');
-      $('redraw').hidden = false;
-    };
-    if (card.classList.contains('revealed')) {
-      card.classList.remove('revealed');
-      setTimeout(go, reduce ? 0 : 650);
-    } else go();
-  }
-  $('cardback').addEventListener('click', draw);
-  $('redraw').addEventListener('click', draw);
+  $('spread').addEventListener('click', function (e) {
+    var el = e.target.closest('.tcard'); if (!el) return;
+    var k = Number(el.dataset.k);
+    reveal(k); select(k);
+  });
+  $('tact').addEventListener('click', function () {
+    var hidden = [0, 1, 2].filter(function (k) { return !sp.rev[k]; });
+    if (hidden.length) {
+      hidden.forEach(function (k, n) {
+        spreadTimers.push(setTimeout(function () { reveal(k); if (n === hidden.length - 1) select(hidden[0]); }, reduce ? 0 : n * 450));
+      });
+    } else {
+      Array.prototype.forEach.call($('spread').querySelectorAll('.tcard'), function (el) { el.classList.remove('revealed', 'sel'); });
+      $('detail').hidden = true;
+      spreadTimers.push(setTimeout(newSpread, reduce ? 0 : 700));
+    }
+  });
   $('decks').addEventListener('click', function (e) {
     var btn = e.target.closest('button'); if (!btn) return;
     Array.prototype.forEach.call(this.children, function (c) { c.setAttribute('aria-pressed', String(c === btn)); });
-    deck = btn.dataset.deck; last = -1;
-    clearInterval(exoTimer);
-    $('card').classList.remove('revealed'); $('redraw').hidden = true;
+    deck = btn.dataset.deck; newSpread();
   });
+  newSpread();
 
   /* ---------- Veillée : minuteur et feu ---------- */
   var f = { mode: 'idle', running: false, endAt: 0, rest: 25 * 60000, focus: 25, pause: 5, lock: null };
@@ -675,12 +734,24 @@ nav button[aria-current="page"] { color: var(--or); background: rgba(59, 44, 128
     fx.globalAlpha = 1;
   }
 
+  /* ---------- Feu en vidéo : si fire.mp4 existe, il remplace le feu dessiné ---------- */
+  var vid = $('firevid'), vidOK = false, wrap = $('hearth');
+  function vidState() {
+    if (!vidOK) return;
+    if (current === 'veillee') { var p = vid.play(); if (p && p.catch) p.catch(function () {}); } else vid.pause();
+  }
+  vid.querySelector('source').addEventListener('error', function () { vidOK = false; wrap.classList.remove('video'); vid.style.opacity = 0; });
+  vid.addEventListener('loadeddata', function () { vidOK = true; wrap.classList.add('video'); vidState(); });
+  vid.addEventListener('error', function () { vidOK = false; wrap.classList.remove('video'); });
+
   /* ---------- Boucle commune ---------- */
   var lastStars = 0;
   function frame(ts) {
     if (!reduce && ts - lastStars > 33) { lastStars = ts; drawStars(ts); }
     breathTick(ts);
-    if (current === 'veillee') drawFire(ts);
+    if (current === 'veillee') {
+      if (vidOK) { heat += (heatTarget - heat) * 0.02; vid.style.opacity = (0.3 + 0.7 * heat).toFixed(3); } else drawFire(ts);
+    }
     requestAnimationFrame(frame);
   }
   window.addEventListener('resize', function () { sizeStars(); if (current === 'veillee') sizeFire(); });
